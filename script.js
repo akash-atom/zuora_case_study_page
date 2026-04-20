@@ -231,6 +231,73 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // ── Mark video (Plyr, 16:9, circle play overlay, full controls) ──
+  var markVideo = document.querySelector(".mark-video");
+  if (markVideo) {
+    // Reserve 16:9 space to prevent layout shift
+    markVideo.style.position = "relative";
+    markVideo.style.paddingBottom = "56.25%";
+    markVideo.style.height = "0";
+    markVideo.style.overflow = "hidden";
+    markVideo.style.background = "#000";
+
+    var markWrapper = document.createElement("div");
+    markWrapper.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;";
+    markWrapper.setAttribute("data-plyr-provider", "vimeo");
+    markWrapper.setAttribute("data-plyr-embed-id", "1176092719");
+    markVideo.appendChild(markWrapper);
+
+    var markPlayer = new Plyr(markWrapper, {
+      resetOnEnd: true
+    });
+
+    // Circle play button overlay
+    var markOverlay = document.createElement("div");
+    markOverlay.style.cssText = "position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:10;cursor:pointer;";
+
+    var markCircle = document.createElement("div");
+    markCircle.style.cssText = "display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:50%;background:rgba(0,0,0,0.39);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background 0.2s;";
+
+    var markIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    markIcon.setAttribute("viewBox", "0 0 24 24");
+    markIcon.setAttribute("fill", "white");
+    markIcon.setAttribute("width", "22");
+    markIcon.setAttribute("height", "22");
+    var markPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    markPath.setAttribute("d", "M8 5v14l11-7z");
+    markIcon.appendChild(markPath);
+
+    markCircle.appendChild(markIcon);
+    markOverlay.appendChild(markCircle);
+    markVideo.appendChild(markOverlay);
+
+    markOverlay.addEventListener("mouseenter", function () {
+      markCircle.style.background = "rgba(0,0,0,0.5)";
+    });
+    markOverlay.addEventListener("mouseleave", function () {
+      markCircle.style.background = "rgba(0,0,0,0.39)";
+    });
+
+    markOverlay.addEventListener("click", function () {
+      markPlayer.play();
+      markOverlay.style.display = "none";
+    });
+
+    markPlayer.on("ended", function () {
+      markOverlay.style.display = "flex";
+    });
+
+    markPlayer.on("ready", function () {
+      markVideo.style.paddingBottom = "";
+      markVideo.style.height = "";
+      markVideo.style.position = "";
+      markVideo.style.overflow = "";
+
+      var markPlyrBtn = markVideo.querySelector(".plyr__control--overlaid");
+      if (markPlyrBtn) markPlyrBtn.style.display = "none";
+    });
+  }
+
   // ── Hero staggered fade-up animation ──
   gsap.set([".aw_logo_top", ".cross_icon", ".zuora_logo_top"], {
     opacity: 0,
