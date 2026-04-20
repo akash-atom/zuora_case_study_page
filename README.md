@@ -7,7 +7,7 @@ Custom JavaScript for a Webflow page, published to npm and served via jsDelivr.
 Add the following `<script>` tag to your Webflow page settings (before `</body>`):
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@aw-webflow/zuora_case_study_page@1.1.0/script.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@aw-webflow/zuora_case_study_page@1.1.1/script.min.js"></script>
 ```
 
 Replace `1.0.0` with the latest published version, or use `@latest` to always pull the most recent release.

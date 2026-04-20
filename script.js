@@ -290,8 +290,8 @@ document.addEventListener("DOMContentLoaded", function () {
     markPlayer.on("ready", function () {
       markVideo.style.paddingBottom = "";
       markVideo.style.height = "";
-      markVideo.style.position = "";
       markVideo.style.overflow = "";
+      // keep position:relative so the overlay stays anchored inside .mark-video
 
       var markPlyrBtn = markVideo.querySelector(".plyr__control--overlaid");
       if (markPlyrBtn) markPlyrBtn.style.display = "none";
